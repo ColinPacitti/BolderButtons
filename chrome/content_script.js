@@ -292,7 +292,7 @@ document.addEventListener('click', function (e) {
 	var str = target.id;
 	str = str.replace("highlighter", "");
 	var num = parseInt(str);
-	if (confirm("Would you like to bold this button?") == true){
+	if (prompt("Enter a title for your button", "Title") == true){
 
 		var userRef = new Firebase("https://bolder-buttons.firebaseio.com/users/google%3A100753637564219961362");
 		var newBind = buttons[num];
