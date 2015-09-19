@@ -297,12 +297,22 @@ document.addEventListener('click', function (e) {
 		var userRef = new Firebase("https://bolder-buttons.firebaseio.com/users/google%3A100753637564219961362");
 		var newBind = buttons[num];
 
-		userRef.child('bindings').push().set({
-			title: "Sample Title",
-			subtitle: "Sample Subtitle for the action",
-			buttonId: newBind.id,
-			webpage: window.location.href
-		});
+		if (newBind.id) {
+			userRef.child('bindings').push().set({
+				title: "Sample Title",
+				subtitle: "Sample Subtitle for the action",
+				buttonId: newBind.id,
+				webpage: window.location.href
+			});	
+		} else {
+			userRef.child('bindings').push().set({
+				title: "Sample Title",
+				subtitle: "Sample Subtitle for the action",
+				classId: newBind.className,
+				webpage: window.location.href
+			});	
+		}
+
 	} else {
 	
 	}
