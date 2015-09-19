@@ -27,9 +27,9 @@ function listenForActions(userRef) {
           chrome.tabs.query({url: webpage}, function(tabs) {
             if (tabs.length == 0) {
               console.log("No matching tabs found");
-              var codeToExecute = "document.addEventListener('DOMContentLoaded', function(e) { document.getElementById('" + binding.buttonId + "').click(); };"
+              var codeToExecute = "document.getElementById('" + binding.buttonId + "').click();"
               chrome.tabs.create({url: webpage, active: true}, function (createdTab) {
-                chrome.tabs.executeScript(created.id, {code: codeToExecute});
+                chrome.tabs.executeScript(createdTab.id, {code: codeToExecute});
               });
             } else {  
               chrome.tabs.update(tabs[0].id, {active: true}, function(updatedTab) {
