@@ -11,7 +11,38 @@ onStart();
 function listenForActions(userRef) {
   console.log('listenForActions');
   userRef.child("actions").on("child_added", function(snapshot) {
-    alert('ACTION: ' + snapshot.val().index);
+    userRef.child("actions").child(snapshot.key()).remove();
+
+    var bindingsRef = userRef.child('bindings');
+    bindingsRef.once("value", function(bindingsSS) {
+      var n = bindingsSS.numChildren();
+      var i = 0;
+      var desiredIndex = snapshot.val().index;
+      bindingsSS.forEach(function(bindingSH) {
+        var binding = bindingSH.val();
+        var webpage = binding.webpage ;
+        console.log('binding: ' + webpage + ", " + binding.buttonId);
+        if (i++ == desiredIndex) {
+          console.log('CHOSEN binding: ' + webpage + ", " + binding.buttonId);
+          chrome.tabs.query({url: webpage}, function(tabs) {
+            if (tabs.length == 0) {
+              console.log("No matching tabs found");
+              var codeToExecute = "document.addEventListener('DOMContentLoaded', function(e) { document.getElementById('" + binding.buttonId + "').click(); };"
+              chrome.tabs.create({url: webpage, active: true}, function (createdTab) {
+                chrome.tabs.executeScript(created.id, {code: codeToExecute});
+              });
+            } else {  
+              chrome.tabs.update(tabs[0].id, {active: true}, function(updatedTab) {
+                var codeToExecute = "document.getElementById('" + binding.buttonId + "').click();"
+                console.log("Executing: " + codeToExecute);
+                chrome.tabs.executeScript(updatedTab.id, {code: codeToExecute});
+              });
+            }
+          });
+        }
+      });
+    });
+    
   });
 }
 
