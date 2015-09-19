@@ -281,40 +281,42 @@ for (var i = 0; i < buttons.length; i++){
 	highlighter.style.height = (offset.height+4) + "px";
 	highlighter.style.border = "3px solid #FFFF00";
 	highlighter.style.zIndex = 1000;
+	highlighter.className = "bolder-buttons-highlighter";
 	document.body.insertBefore(highlighter, document.body.firstChild);
 	console.log('button' + i + ' changed color');
 }
 
-if (buttons.length > 0){
-document.addEventListener('click', function (e) {
+function addButtonListener(e) {
 	e = e || window.event;
 	var target = e.target || e.srcElement;
 	var str = target.id;
 	str = str.replace("highlighter", "");
 	var num = parseInt(str);
-	if (prompt("Enter a title for your button", "Title") == true){
+	var title = prompt("Enter a title for your button", "Title");
 
-		var userRef = new Firebase("https://bolder-buttons.firebaseio.com/users/google%3A100753637564219961362");
-		var newBind = buttons[num];
+	var userRef = new Firebase("https://bolder-buttons.firebaseio.com/users/google%3A100753637564219961362");
+	var newBind = buttons[num];
 
-		if (newBind.id) {
-			userRef.child('bindings').push().set({
-				title: "Sample Title",
-				subtitle: "Sample Subtitle for the action",
-				buttonId: newBind.id,
-				webpage: window.location.href
-			});	
-		} else {
-			userRef.child('bindings').push().set({
-				title: "Sample Title",
-				subtitle: "Sample Subtitle for the action",
-				classId: newBind.className,
-				webpage: window.location.href
-			});	
-		}
-
+	if (newBind.id) {
+		userRef.child('bindings').push().set({
+			title: title,
+			buttonId: newBind.id,
+			webpage: window.location.href
+		});	
 	} else {
-	
+		userRef.child('bindings').push().set({
+			title: "Sample Title",
+			classId: newBind.className,
+			webpage: window.location.href
+		});	
 	}
-});
+	document.removeEventListener('click', addButtonListener);
+	var hls = document.getElementsByClassName("bolder-buttons-highlighter");
+	[].forEach.call(hls, function(highlighter) {
+		highlighter.style.display = "none";
+	});
+}
+
+if (buttons.length > 0){
+	document.addEventListener('click', addButtonListener);
 }
