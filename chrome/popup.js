@@ -19,7 +19,7 @@ ref.once("value", function(snapshot) {
 		var edit = document.createElement("button");
 		edit.setAttribute("id", binding);
 		edit.innerHTML = "Edit"
-		edit.addEventListener("click", function() { showForm() });
+		edit.addEventListener("click", function() { showForm(binding) });
 		edit.style.margin= "0px 0px 0px 30px"
 
 		var li = document.createElement("li");
@@ -36,8 +36,14 @@ function sendRemove(binding) {
 	ref.child(binding).remove()
 }
 
-function showForm() {
+function showForm(binding) {
 	var form = document.getElementById("edit");
-	form.innerHTML = '<form id="buttonForm">Button Title: <input type="text" name="buttonTitle"><br><input type="submit" value="Save"></form>';
+	form.innerHTML = '<form id="buttonForm">Button Title: <input id="editName" type="text" name="buttonTitle"><button id="save"> Save </form>';
+	var editButton = document.getElementById("save")
+	editButton.addEventListener("click", 
+	function() { 
+		var editText = document.getElementById("editName").value;
+		ref.child(binding).update({"title": editText})
+	});
 	
 }
