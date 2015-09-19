@@ -4,6 +4,11 @@ ref.once("value", function(snapshot) {
 	var bounedButtons = snapshot.val();
 	var list = document.getElementById("buttons")
 
+	document.getElementById("add").addEventListener("click", 
+	function() { 
+		chrome.tabs.executeScript(null, {file: "content_script.js"});
+	});
+	
 	for(var binding in bounedButtons) {
 		var button = document.createElement("button");
 		button.setAttribute("id", binding);
@@ -11,16 +16,16 @@ ref.once("value", function(snapshot) {
 		button.addEventListener("click", function() { sendRemove(binding) });
 		button.style.margin= "0px 0px 0px 30px"
 
-		var showInfo = document.createElement("button");
-		showInfo.setAttribute("id", binding);
-		showInfo.innerHTML = "Edit"
-		//showInfo.addEventListener("click", function() { sendRemove(binding) });
-		showInfo.style.margin= "0px 0px 0px 30px"
+		var edit = document.createElement("button");
+		edit.setAttribute("id", binding);
+		edit.innerHTML = "Edit"
+		edit.addEventListener("click", function() { showForm() });
+		edit.style.margin= "0px 0px 0px 30px"
 
 		var li = document.createElement("li");
 		li.appendChild(document.createTextNode(bounedButtons[binding].title));
 		li.appendChild(button);
-		li.appendChild(showInfo);
+		li.appendChild(edit);
 		list.appendChild(li);
 	}
 }, function (errorObject) {
@@ -29,4 +34,10 @@ ref.once("value", function(snapshot) {
 
 function sendRemove(binding) {
 	ref.child(binding).remove()
+}
+
+function showForm() {
+	var form = document.getElementById("edit");
+	form.innerHTML = '<form id="buttonForm">Button Title: <input type="text" name="buttonTitle"><br><input type="submit" value="Save"></form>';
+	
 }
