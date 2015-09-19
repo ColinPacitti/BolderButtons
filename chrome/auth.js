@@ -27,13 +27,23 @@ function listenForActions(userRef) {
           chrome.tabs.query({url: webpage}, function(tabs) {
             if (tabs.length == 0) {
               console.log("No matching tabs found");
-              var codeToExecute = "document.getElementById('" + binding.buttonId + "').click();"
+              var codeToExecute;
+              if (binding.buttonId) {
+                codeToExecute = "document.getElementById('" + binding.buttonId + "').click();"
+              } else {
+                codeToExecute = "document.getElementsByClassName('" + binding.classId + "')[0].click();"
+              }
               chrome.tabs.create({url: webpage, active: true}, function (createdTab) {
                 chrome.tabs.executeScript(createdTab.id, {code: codeToExecute});
               });
             } else {  
               chrome.tabs.update(tabs[0].id, {active: true}, function(updatedTab) {
-                var codeToExecute = "document.getElementById('" + binding.buttonId + "').click();"
+                var codeToExecute;
+                if (binding.buttonId) {
+                  codeToExecute = "document.getElementById('" + binding.buttonId + "').click();"
+                } else {
+                  codeToExecute = "document.getElementsByClassName('" + binding.classId + "')[0].click();"
+                }
                 console.log("Executing: " + codeToExecute);
                 chrome.tabs.executeScript(updatedTab.id, {code: codeToExecute});
               });
