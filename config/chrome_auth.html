@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+  </head>
+  <body>
+    <script>
+      console.log("Chrome Auth started");
+      var ref = new Firebase('https://bolder-buttons.firebaseio.com/');
+
+      var uid = localStorage.getItem('AUTH');
+      console.log("Chrome Auth = " + uid);
+
+      if (uid == null) {
+        ref.authWithOAuthPopup("google", function(error, authData) {
+          if (error) {
+            console.log("Login failed!", error);
+          } else {
+            console.log("Login Successful: " + authData.uid);
+            localStorage.setItem('AUTH', authData.uid);
+          }
+        });
+      }
+
+    </script>
+  </body>
+</html>

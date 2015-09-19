@@ -17,6 +17,6 @@
       "persistent": true
   },
   "permissions": [
-    "activeTab"
+    "activeTab", "tabs", "http://*/*", "https://*/*"
   ]
 }
