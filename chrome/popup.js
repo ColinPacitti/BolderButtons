@@ -14,7 +14,7 @@ ref.once("value", function(snapshot) {
 		var showInfo = document.createElement("button");
 		showInfo.setAttribute("id", binding);
 		showInfo.innerHTML = "Edit"
-		showInfo.addEventListener("click", function() { sendRemove(binding) });
+		//showInfo.addEventListener("click", function() { sendRemove(binding) });
 		showInfo.style.margin= "0px 0px 0px 30px"
 
 		var li = document.createElement("li");
