@@ -9,8 +9,9 @@
     "default_icon": "icon.png",
     "default_title": "Bold a Button"
   },
+  "content_security_policy": "script-src 'self' https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'",
   "background": {
-     "scripts": ["bold.js"],
+     "scripts": ["firebase.js", "bold.js", "auth.js"],
       "persistent": true
   },
   "permissions": [
