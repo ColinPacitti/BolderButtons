@@ -14,3 +14,16 @@ for (var i = 0; i < buttons.length; i++){
 	document.body.insertBefore(highlighter, document.body.firstChild);
 	console.log('button' + i + ' changed color');
 }
+
+document.addEventListener('click', function (e) {
+	e = e || window.event;
+	var target = e.target || e.srcElement;
+	var str = target.id;
+	str = str.replace("highlighter", "");
+	var num = parseInt(str);
+	if (confirm("Would you like to bold this button?") == true){
+		var newBind = buttons[num];
+	} else {
+	
+	}
+});
