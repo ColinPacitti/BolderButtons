@@ -4,6 +4,11 @@ ref.once("value", function(snapshot) {
 	var bounedButtons = snapshot.val();
 	var list = document.getElementById("buttons")
 
+	document.getElementById("add").addEventListener("click", 
+	function() { 
+		chrome.tabs.executeScript(null, {file: "content_script.js"});
+	});
+	
 	for(var binding in bounedButtons) {
 		var button = document.createElement("button");
 		button.setAttribute("id", binding);
@@ -14,7 +19,6 @@ ref.once("value", function(snapshot) {
 		var showInfo = document.createElement("button");
 		showInfo.setAttribute("id", binding);
 		showInfo.innerHTML = "Edit"
-		//showInfo.addEventListener("click", function() { sendRemove(binding) });
 		showInfo.style.margin= "0px 0px 0px 30px"
 
 		var li = document.createElement("li");
