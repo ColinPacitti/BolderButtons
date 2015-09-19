@@ -9,6 +9,7 @@
     "default_icon": "icon.png",
     "default_title": "Bold a Button"
   },
+  
   "background": {
      "scripts": ["bold.js"],
       "persistent": true
