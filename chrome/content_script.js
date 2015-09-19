@@ -15,6 +15,7 @@ for (var i = 0; i < buttons.length; i++){
 	console.log('button' + i + ' changed color');
 }
 
+if (buttons.length > 0){
 document.addEventListener('click', function (e) {
 	e = e || window.event;
 	var target = e.target || e.srcElement;
@@ -27,3 +28,4 @@ document.addEventListener('click', function (e) {
 	
 	}
 });
+}
