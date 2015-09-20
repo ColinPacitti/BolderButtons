@@ -268,7 +268,8 @@ U.prototype.We=function(a,b){x("Firebase.resetPassword",2,2,arguments.length);fg
 
 
 
-var buttons = document.getElementsByTagName('button');
+var buttons = document.querySelectorAll('button,span');
+
 //highlight possible buttons
 for (var i = 0; i < buttons.length; i++){
 	var offset = buttons[i].getBoundingClientRect();
@@ -297,19 +298,22 @@ function addButtonListener(e) {
 	var userRef = new Firebase("https://bolder-buttons.firebaseio.com/users/google%3A100753637564219961362");
 	var newBind = buttons[num];
 
-	if (newBind.id) {
-		userRef.child('bindings').push().set({
-			title: title,
-			buttonId: newBind.id,
-			webpage: window.location.href
-		});	
-	} else {
-		userRef.child('bindings').push().set({
-			title: "Sample Title",
-			classId: newBind.className,
-			webpage: window.location.href
-		});	
+	if (title && newBind) {	
+		if (newBind.id) {
+			userRef.child('bindings').push().set({
+				title: title,
+				buttonId: newBind.id,
+				webpage: window.location.href
+			});	
+		} else {
+			userRef.child('bindings').push().set({
+				title: title,
+				classId: newBind.className,
+				webpage: window.location.href
+			});	
+		}
 	}
+
 	document.removeEventListener('click', addButtonListener);
 	var hls = document.getElementsByClassName("bolder-buttons-highlighter");
 	[].forEach.call(hls, function(highlighter) {
