@@ -293,32 +293,38 @@ var signInText = new UI.Text({
 signInPage.add(signInText);
 signInPage.show();
 
-var actionsMenu = new UI.Menu({
-  backgroundColor: 'blue',
-  textColor: 'white',
-  highlightBackgroundColor: 'white',
-  highlightTextColor: 'blue'
-});
-
-
-actionsMenu.on('select', function(e) {
-  console.log('showActionMenu, user = ' + userRef);
-  if (userRef) {
-    userRef.child("actions").push().set({ index : e.itemIndex });
-  }
-});
+var actionsMenu = null;
 
 function showActionMenu(userRef) {
   console.log('showActionMenu');
   
+  if (actionsMenu) {
+    actionsMenu.hide();
+  }
+  
+  actionsMenu = new UI.Menu({
+    backgroundColor: 'blue',
+    textColor: 'white',
+    highlightBackgroundColor: 'white',
+    highlightTextColor: 'blue'
+  });
+  
+  actionsMenu.on('select', function(e) {
+    console.log('showActionMenu, user = ' + userRef);
+    if (userRef) {
+      userRef.child("actions").push().set({ index : e.itemIndex });
+    }
+  });
+  
   userRef.child("bindings").on("value", function(snapshot) {
       var pos = 0;
       if (snapshot.exists()) {
-          snapshot.forEach(function(binding) {
-            actionsMenu.item(0, pos++, { title: binding.title, subtitle: binding.subtitle });
-          });
+        snapshot.forEach(function(binding) {
+          console.log('binding = ' + binding.val());
+          actionsMenu.item(0, pos++, { title: binding.val().title, subtitle: binding.val().webpage });
+        });
       }
-      signInPage.hide();
+      signInPage.hide(); 
       actionsMenu.show();
   });
 }
